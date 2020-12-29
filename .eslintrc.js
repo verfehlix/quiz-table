@@ -14,14 +14,7 @@ module.exports = {
         browser: true,
         jest: true
     },
-    ignorePatterns: ["**/generated/**"],
     rules: {
-        "import/order": [
-            "error",
-            {
-                "newlines-between": "always"
-            }
-        ],
         "react/jsx-curly-brace-presence": ["error", "never"]
     }
 }

@@ -1,0 +1,19 @@
+{
+    "eslint.workingDirectories": ["src"],
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "eslint.alwaysShowStatus": true,
+
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+
+    "typescript.preferences.useAliasesForRenames": false,
+    "javascript.preferences.useAliasesForRenames": false,
+
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+
+    "editor.linkedEditing": true
+}
