@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import { useLocalStorage } from "../useLocalStorage"
 
 const Title = styled.h1`
     text-align: center;
@@ -81,24 +82,34 @@ const LevelItem = styled.div<{ colIndex: number; rowIndex: number; clicked: bool
     justify-items: center;
 
     padding: 2rem;
-    border: 1px solid #f5f6fa;
+    border: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.clicked ? "1px solid transparent" : "1px solid #f5f6fa"};
     border-radius: 0.5rem;
 
     background-color: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
         props.clicked ? "#555a66" : "#2a4791"};
 
-    cursor: pointer;
+    cursor: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.clicked ? "" : "pointer"};
 
     transition: background-color 250ms linear, transform 250ms linear;
 
     &:hover {
-        background-color: #4066c8;
-        transform: scale(1.125) rotate(2deg);
+        background-color: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+            props.clicked ? "#555a66" : "#4066c8;"};
+        transform: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+            props.clicked ? "" : "scale(1.125) rotate(2deg);"};
     }
 `
 
 export const App: React.FC = () => {
-    // const [bla, setBla] = useState([])
+    // const [bla, setBla] = useState<boolean[][]>(
+    //     new Array(categories.length).fill([...new Array(levels.length).fill(false)])
+    // )
+    const [bla, setBla] = useLocalStorage<boolean[][]>(
+        "bla",
+        new Array(categories.length).fill([...new Array(levels.length).fill(false)])
+    )
     return (
         <div className="App">
             <Title>Silvester Quiz 2020</Title>
@@ -116,7 +127,12 @@ export const App: React.FC = () => {
                         {categories.map((category, colIndex) =>
                             levels.map((level, rowIndex) => (
                                 <LevelItem
-                                    clicked={false}
+                                    clicked={bla[colIndex][rowIndex]}
+                                    onClick={() => {
+                                        const newBla = JSON.parse(JSON.stringify(bla))
+                                        newBla[colIndex][rowIndex] = !bla[colIndex][rowIndex]
+                                        setBla(newBla)
+                                    }}
                                     colIndex={colIndex}
                                     rowIndex={rowIndex + 2}
                                     key={`${category.name}-${level}`}
