@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 const Title = styled.h1`
@@ -64,12 +64,16 @@ const HeaderItem = styled.div<{ index: number }>`
     font-weight: bold;
 `
 
-const LevelItem = styled.div<{ colIndex: number; rowIndex: number }>`
-    grid-column-start: ${(props: { colIndex: number; rowIndex: number }) => props.colIndex};
-    grid-column-end: ${(props: { colIndex: number; rowIndex: number }) => props.colIndex};
+const LevelItem = styled.div<{ colIndex: number; rowIndex: number; clicked: boolean }>`
+    grid-column-start: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.colIndex};
+    grid-column-end: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.colIndex};
 
-    grid-row-start: ${(props: { colIndex: number; rowIndex: number }) => props.rowIndex};
-    grid-row-end: ${(props: { colIndex: number; rowIndex: number }) => props.rowIndex};
+    grid-row-start: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.rowIndex};
+    grid-row-end: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.rowIndex};
 
     text-align: center;
     display: grid;
@@ -80,7 +84,8 @@ const LevelItem = styled.div<{ colIndex: number; rowIndex: number }>`
     border: 1px solid #f5f6fa;
     border-radius: 0.5rem;
 
-    background-color: #2a4791;
+    background-color: ${(props: { colIndex: number; rowIndex: number; clicked: boolean }) =>
+        props.clicked ? "#555a66" : "#2a4791"};
 
     cursor: pointer;
 
@@ -93,6 +98,7 @@ const LevelItem = styled.div<{ colIndex: number; rowIndex: number }>`
 `
 
 export const App: React.FC = () => {
+    // const [bla, setBla] = useState([])
     return (
         <div className="App">
             <Title>Silvester Quiz 2020</Title>
@@ -110,6 +116,7 @@ export const App: React.FC = () => {
                         {categories.map((category, colIndex) =>
                             levels.map((level, rowIndex) => (
                                 <LevelItem
+                                    clicked={false}
                                     colIndex={colIndex}
                                     rowIndex={rowIndex + 2}
                                     key={`${category.name}-${level}`}
